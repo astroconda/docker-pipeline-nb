@@ -1,11 +1,12 @@
+ARG HUB
 ARG PIPELINE
-FROM astroconda/pipeline:${PIPELINE}
+FROM ${HUB}/pipeline:${PIPELINE}
 LABEL maintainer="jhunk@stsci.edu" \
       vendor="Space Telescope Science Institute"
 
 WORKDIR "${TOOLCHAIN_BUILD}"
 
-COPY scripts/ ${TOOLCHAIN_BUILD}/bin
+COPY scripts/build.sh ${TOOLCHAIN_BUILD}/bin/
 COPY etc/ ${TOOLCHAIN_BUILD}/etc
 
 USER "${USER_ACCT}"
@@ -19,3 +20,5 @@ WORKDIR "${USER_HOME}"
 EXPOSE 8888
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start.sh"]
+
+COPY scripts/start.sh /usr/local/bin
