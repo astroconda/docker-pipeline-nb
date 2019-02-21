@@ -1,6 +1,6 @@
 #!/bin/bash
 HUB=${2:-astroconda}
-PROJECT=${HUB}/pipeline-nb
+PROJECT=${HUB}/datb-tc-pipeline-nb
 PROJECT_VERSION="${1}"
 TAGS=()
 image_tag="${PROJECT_VERSION}"
