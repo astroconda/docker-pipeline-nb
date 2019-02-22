@@ -4,6 +4,13 @@ PROJECT=${HUB}/datb-tc-pipeline-nb
 PROJECT_VERSION="${1}"
 TAGS=()
 image_tag="${PROJECT_VERSION}"
+EXTRA=()
+SNAPSHOT=${SNAPSHOT:-}
+
+if [[ -n ${SNAPSHOT} ]]; then
+    EXTRA+=( "--no-cache" )
+    EXTRA+=( "--pull" )
+fi
 
 if [[ -z ${PROJECT_VERSION} ]]; then
     echo "Pipeline version required [e.g. hstdp-snapshot, hstdp-2018.3_py###]"
@@ -29,7 +36,9 @@ set -x
 
 TAGS+=( "-t ${PROJECT}:${image_tag}" )
 PIPELINE="${PROJECT_VERSION}"
-docker build ${TAGS[@]} \
+docker build \
+    ${EXTRA[@]} \
+    ${TAGS[@]} \
     --build-arg HUB="${HUB}" \
     --build-arg PIPELINE="${PROJECT_VERSION}" \
     .
