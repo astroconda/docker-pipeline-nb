@@ -1,6 +1,6 @@
 ARG HUB
 ARG PIPELINE
-FROM ${HUB}/pipeline:${PIPELINE}
+FROM ${HUB}/datb-tc-pipeline:${PIPELINE}
 LABEL maintainer="jhunk@stsci.edu" \
       vendor="Space Telescope Science Institute"
 
