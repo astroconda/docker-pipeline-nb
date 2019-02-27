@@ -15,7 +15,7 @@ RUN sudo chown -R ${USER_ACCT}: ${TOOLCHAIN_BUILD} \
     && bin/build.sh \
     && sudo rm -rf "${TOOLCHAIN_BUILD}"
 
-WORKDIR "${USER_HOME}"
+USER root
 
 EXPOSE 8888
 ENTRYPOINT ["tini", "-g", "--"]
