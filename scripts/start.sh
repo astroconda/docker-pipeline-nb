@@ -95,6 +95,10 @@ if [ $(id -u) == 0 ] ; then
         echo "$NB_USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/notebook
     fi
 
+    # Add toolchain to sudo secure_path
+    sed -r "s%Defaults\s+secure_path\s+=\s+(.*)%Defaults secure_path=${TOOLCHAIN}/bin:\1%" \
+        /etc/sudoers | grep secure_path > /etc/sudoers.d/path
+
     # Exec the command as NB_USER with the PATH and the rest of
     # the environment preserved
     run-hooks /usr/local/bin/before-notebook.d
