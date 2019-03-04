@@ -33,8 +33,9 @@ RUN sudo chown -R ${USER_ACCT}: ${TOOLCHAIN_BUILD} \
 
 # Replace user 'developer' with 'jovyan'
 USER root
-RUN usermod -l ${NB_USER} ${USER_ACCT} \
-    && usermod -g ${NB_GID} -G ${USER_ACCT} ${NB_USER} \
+RUN mv ${USER_HOME} ${NB_HOME} \
+    && usermod -l ${NB_USER} ${USER_ACCT} \
+    && usermod -d ${NB_HOME} -g ${NB_GID} -G ${USER_ACCT} ${NB_USER} \
     && chown -R ${NB_USER}:${NB_UID} ${NB_HOME} \
     && chmod g+w /etc/passwd \
     && fix-permissions ${NB_HOME}
@@ -44,9 +45,8 @@ ENV HOME="${NB_HOME}"
 USER "${NB_UID}"
 
 # Setup work directory for backward-compatibility
-RUN mkdir ${NB_HOME}/work && \
-    fix-permissions ${NB_HOME} && \
-    jupyter notebook --generate-config
+RUN mkdir ${NB_HOME}/work \
+    && fix-permissions ${NB_HOME}
 
 USER root
 
